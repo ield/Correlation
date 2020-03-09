@@ -46,6 +46,7 @@ signal2 = signal2 - meanS2;
 %   would be equal.
 [correlation, ~] = xcorr(signal1, signal2);
 
+
 %% 4
 % In this case, in stead of displaying the lags, the maximum of the
 %   correlation is transformed to distance. In order to make this

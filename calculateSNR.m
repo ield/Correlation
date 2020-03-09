@@ -36,7 +36,7 @@ sig = circshift(sig, -pos+1);
 lastMax = 0;
 noiseRMS = 0;
 
-for i = 1:m-2
+for i = 1:m-1
     for j = 0:pulse
         if(sig(i*pulse - pulse / 2 + j) > lastMax)
             lastMax = sig(i*pulse - pulse / 2 + j);

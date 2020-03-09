@@ -21,17 +21,18 @@ fReal = 25.0134;    %Real frequency of FPGA
 
 filename1 = 'tx.txt';
 
-filename2 = 'notrap_60ma_1024av.txt';
+filename2 = 'rx_58dB_av.txt';
 
 %% For correlations
 
-norCor = correlate(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
+% norCor = correlate(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
 fouCor = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
 
 %% Calulate the error between both functions as the minimum distance
 % error = (norCor - fouCor).^2;
 % figure
 % plot(error);
+% title('Distance between correlations');
 
 %% For signal snr
 % testSignalSNR(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
