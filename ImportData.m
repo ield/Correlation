@@ -23,6 +23,7 @@ filename1 = 'tx.txt';
 
 filename2 = 'notrap_60ma_1024av.txt';
 
+%% For correlations
 
 norCor = correlate(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
 fouCor = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
@@ -31,3 +32,6 @@ fouCor = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
 error = (norCor - fouCor).^2;
 figure
 plot(error);
+
+%% For signal snr
+testSignalSNR(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
