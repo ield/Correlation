@@ -81,11 +81,9 @@ correlation = circshift(correlation, (length(correlation)-1)/2-1);
 %Step 3
 correlation = flip(correlation);
 
-
 correlation = abs(correlation);
 
 xaxis = 0 : vt / length(correlation) * m : (length(correlation)-1)/length(correlation)*m*vt;
-
 %% 5
 % The maximum of the correlation is found and its xaxis position is the
 % distance caused by the delay
@@ -107,6 +105,10 @@ title(strcat('XCORR Correlation. Distance = ',num2str(distance) ,'m. SNR = ',num
 xlim([xaxis(1) xaxis(length(xaxis))]);
 xlabel('Distance [m]');
 ylabel('Correlation');
+
+txt = strcat('SNR received = ', num2str(signalSNR(signal1, signal2, correlation)), ' dB.');
+dim = [0.2 0.5 0.3 0.3];
+annotation('textbox',dim,'String',txt,'FitBoxToText','on');
 
 
 end

@@ -91,6 +91,10 @@ xlim([xaxis(1) xaxis(length(xaxis))]);
 xlabel('Distance [m]');
 ylabel('Correlation');
 
+txt = strcat('SNR received = ', num2str(signalSNR(signal1, signal2, correlation)), ' dB.');
+dim = [0.2 0.5 0.3 0.3];
+annotation('textbox',dim,'String',txt,'FitBoxToText','on');
+
 
 end
 

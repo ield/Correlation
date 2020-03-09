@@ -29,9 +29,9 @@ norCor = correlate(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
 fouCor = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
 
 %% Calulate the error between both functions as the minimum distance
-error = (norCor - fouCor).^2;
-figure
-plot(error);
+% error = (norCor - fouCor).^2;
+% figure
+% plot(error);
 
 %% For signal snr
-testSignalSNR(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
+% testSignalSNR(filename1, filename2, pulse, m, fFPGA, fReal, n, c);

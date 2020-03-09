@@ -29,7 +29,5 @@ n2 = powS2 - s2;
 %% 4. Calculates snr in signal2
 snr = 10*log10(s2/n2);
 
-snr = 0;
-
 end
 
