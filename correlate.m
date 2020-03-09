@@ -3,7 +3,7 @@
 
 function [correlation] = correlate(filename1, filename2, pulse, m, fFPGA, fReal, n, c)
 %% General Explanation
-%Correlate returns the distance between two signals
+%Correlate returns the correlation between two signals using xcorr
 %   #1: Extracts the signal from .txt files
 %   #2: Deletes the continous compnent.
 %   #3: correlates both signals usig xocrr
@@ -32,7 +32,6 @@ vt = (1/(fReal*1e6))*(c/n);
 %% 1
 signal1 = textToSignal(filename1, pulse, m, fFPGA, fReal);
 signal2 = textToSignal(filename2, pulse, m, fFPGA, fReal);
-length(signal1)
 
 %% 2 
 % The AC component is substracted.
