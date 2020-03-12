@@ -21,11 +21,11 @@ fReal = 25.0134;    %Real frequency of FPGA
 
 filename1 = 'tx.txt';
 
-filename2 = 'rx_58dB_av.txt';
+filename2 = '1000mrx.txt';
 
 %% For correlations
 
-% norCor = correlate(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
+norCor = correlate(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
 fouCor = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
 
 %% Calulate the error between both functions as the minimum distance

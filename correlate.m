@@ -6,7 +6,7 @@ function [correlation] = correlate(filename1, filename2, pulse, m, fFPGA, fReal,
 %Correlate returns the correlation between two signals using xcorr
 %   #1: Extracts the signal from .txt files
 %   #2: Deletes the continous compnent.
-%   #3: correlates both signals usig xocrr
+%   #3: correlates both signals usig perCorr
 %   #4: Shifts the lags of the xaxis into distance
 %   #5: Detects the peak in the correlation and the snr
 %   #6: Plots the correlation
@@ -41,53 +41,30 @@ signal1 = signal1 - meanS1;
 signal2 = signal2 - meanS2;
 
 %% 3
+% perCorr is a function used to correlate periodic discrete signals. It is
+%   better for this signals than xcorr because in xocrr a signal "enters"
+%   into another. Being periodic signals this makes no sense.
 % xocrr return the correlation of two signals and the position of that
 %   correlation. If the maximum was in the middle of the vector, both signals
 %   would be equal.
-[correlation, ~] = xcorr(signal1, signal2);
+
+correlation = perCorr(signal1, signal2);
 
 
 %% 4
 % In this case, in stead of displaying the lags, the maximum of the
-%   correlation is transformed to distance. In order to make this
-%   conversion, several aspects are taken into account.
-%   1.  The correlation is a periodic function, and the xcorr function only
-%       displays the first two periods. If the result of the xcorr function
-%       was plotted, the most reliable information remains between the
-%       first and the third quarter of the values of the array. This is
-%       because the xcorr multiplies values, and in these points of the
-%       array, the functions are more superpossed. Therefore, these points
-%       are the only ones considered
-%   2.  The negative values of the correlation match with the first delays,
-%       and since the function is periodic, the last values (of the
-%       selected ones) from right to left match with the next delays. The
-%       value closest to 0 on the right is the last delay measurable.
-%       Therefore, a circhift is done to place the last values at the end
-%       (since the function is periodic, nothing changes).
-%   3.  Finally the function is inverted so that the first delays are
-%       closest to 0
-% Now that the shifts are ordered timely, an x axis is created considering
+%   correlation is transformed to distance. 
+% The x axis is created considering
 %   the transformation from delay to distance (each delay corresponds to a
-%   given distance)
-
-
-%Step 1
-ini = (length(correlation)-1)/4;
-fin = (length(correlation)-1)*3/4;
-correlation = correlation(ini:fin);
-
-%Step 2
-correlation = circshift(correlation, (length(correlation)-1)/2-1);
-
-%Step 3
-correlation = flip(correlation);
-
-correlation = abs(correlation);
+%   given distance). This is done considering the speed of light in the
+%   medium given.
 
 xaxis = 0 : vt / length(correlation) * m : (length(correlation)-1)/length(correlation)*m*vt;
 %% 5
 % The maximum of the correlation is found and its xaxis position is the
-% distance caused by the delay
+% distance caused by the delay. 
+% The SNR of the correlation is then calculated, which compares the peak of
+% the correlation with the rms values of the rest of the fnction.
 
 corMax = max(correlation);
 pos = find(correlation == corMax);
