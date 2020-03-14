@@ -22,7 +22,7 @@ function varargout = main(varargin)
 
 % Edit the above text to modify the response to help main
 
-% Last Modified by GUIDE v2.5 14-Mar-2020 19:37:21
+% Last Modified by GUIDE v2.5 14-Mar-2020 20:15:11
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -46,23 +46,20 @@ end
 
 % --- Executes just before main is made visible.
 function main_OpeningFcn(hObject, eventdata, handles, varargin)
-n = 1.468;          %Fiber refraction index
-c = 2.9979e8;       %Speed of light in vacuum
+handles.n = 1.468;          %Fiber refraction index
 
-pulse = 80;         %Ideal number of points per pulse
-m = 255;            %Length of the M-Sequence
+handles.c = 2.9979e8;       %Speed of light in vacuum
 
-fFPGA = 25;         %Ideal frequency of FPGA
-fReal = 25.0134;    %Real frequency of FPGA
+handles.pulse = 80;         %Ideal number of points per pulse
+handles.m = 255;            %Length of the M-Sequence
+
+handles.fFPGA = 25;         %Ideal frequency of FPGA
+handles.fReal = 25.0134;    %Real frequency of FPGA
 
 %%Importing signals
 
-filename1 = 'tx.txt';
-filename2 = '1000mrx.txt';
-
-[handles.xaxis, handles.norCor, handles.norDis, handles.norSnrCor, handles.norSnrSig] = correlate(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
-[handles.xaxis, handles.fouCor, handles.fouDis, handles.fouSnrCor, handles.fouSnrSig] = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
-% plot(handles.xaxis, handles.norCor);
+handles.filename1 = 'tx.txt';
+handles.filename2 = '1000mrx.txt';
 
 handles.output = hObject;
 
@@ -86,6 +83,10 @@ varargout{1} = handles.output;
 
 % --- Executes on button press in correlateButton.
 function correlateButton_Callback(hObject, eventdata, handles)
+
+[handles.xaxis, handles.norCor, handles.norDis, handles.norSnrCor, handles.norSnrSig] = correlate(handles.filename1, handles.filename2, handles.pulse, handles.m, handles.fFPGA, handles.fReal, handles.n, handles.c);
+[handles.xaxis, handles.fouCor, handles.fouDis, handles.fouSnrCor, handles.fouSnrSig] = correlateFourier(handles.filename1, handles.filename2, handles.pulse, handles.m, handles.fFPGA, handles.fReal, handles.n, handles.c);
+
 
 axes(handles.normalCorrelation);
 plot(handles.xaxis, handles.norCor);
@@ -239,3 +240,59 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
     
+
+
+% --- Executes on selection change in pointsMenu.
+function pointsMenu_Callback(hObject, eventdata, handles)
+str = get(hObject, 'String');
+val = get(hObject, 'Value');
+
+handles.pulse =  str2num(str{val});
+
+guidata(hObject, handles)
+
+
+% --- Executes during object creation, after setting all properties.
+function pointsMenu_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to pointsMenu (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on selection change in freqMenu.
+function freqMenu_Callback(hObject, eventdata, handles)
+
+str = get(hObject, 'String');
+val = get(hObject, 'Value');
+
+switch str{val}
+    case '25'
+        handles.fFPGA = 25;
+        handles.fReal = 25.0134;
+    case '32'
+        handles.fFPGA = 32;      
+        handles.fReal = 31.978; 
+    case '50'
+        handles.fFPGA = 50;      
+        handles.fReal = 50.25;   
+end
+guidata(hObject, handles)
+
+
+% --- Executes during object creation, after setting all properties.
+function freqMenu_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to freqMenu (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
