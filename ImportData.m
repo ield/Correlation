@@ -25,8 +25,8 @@ filename2 = '1000mrx.txt';
 
 %% For correlations
 
-norCor = correlate(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
-fouCor = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
+[xaxis, norCor] = correlate(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
+% fouCor = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
 
 %% Calulate the error between both functions as the minimum distance
 % error = (norCor - fouCor).^2;

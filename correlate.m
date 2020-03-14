@@ -1,7 +1,7 @@
 %Engineer: ield
 %Company: ALTER-UPM
 
-function [correlation] = correlate(filename1, filename2, pulse, m, fFPGA, fReal, n, c)
+function [xaxis, correlation] = correlate(filename1, filename2, pulse, m, fFPGA, fReal, n, c)
 %% General Explanation
 %Correlate returns the correlation between two signals using xcorr
 %   #1: Extracts the signal from .txt files
@@ -75,18 +75,18 @@ snr = calculateSNR(correlation, m, pulse);
 
 %% 6
 % The correlation is plotted
-
-figure
-plot(xaxis, correlation, 'b');
-
-title(strcat('XCORR Correlation. Distance = ',num2str(distance) ,'m. SNR = ',num2str(snr),' dB.'));
-xlim([xaxis(1) xaxis(length(xaxis))]);
-xlabel('Distance [m]');
-ylabel('Correlation');
-
-txt = strcat('SNR received = ', num2str(signalSNR(signal1, signal2, correlation)), ' dB.');
-dim = [0.2 0.5 0.3 0.3];
-annotation('textbox',dim,'String',txt,'FitBoxToText','on');
+% 
+% figure
+% plot(xaxis, correlation, 'b');
+% 
+% title(strcat('XCORR Correlation. Distance = ',num2str(distance) ,'m. SNR = ',num2str(snr),' dB.'));
+% xlim([xaxis(1) xaxis(length(xaxis))]);
+% xlabel('Distance [m]');
+% ylabel('Correlation');
+% 
+% txt = strcat('SNR received = ', num2str(signalSNR(signal1, signal2, correlation)), ' dB.');
+% dim = [0.2 0.5 0.3 0.3];
+% annotation('textbox',dim,'String',txt,'FitBoxToText','on');
 
 
 end
