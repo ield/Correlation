@@ -22,7 +22,7 @@ function varargout = main(varargin)
 
 % Edit the above text to modify the response to help main
 
-% Last Modified by GUIDE v2.5 14-Mar-2020 17:41:03
+% Last Modified by GUIDE v2.5 14-Mar-2020 19:37:21
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -60,8 +60,8 @@ fReal = 25.0134;    %Real frequency of FPGA
 filename1 = 'tx.txt';
 filename2 = '1000mrx.txt';
 
-[handles.xaxis, handles.norCor] = correlate(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
-[handles.xaxis, handles.fouCor] = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
+[handles.xaxis, handles.norCor, handles.norDis, handles.norSnrCor, handles.norSnrSig] = correlate(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
+[handles.xaxis, handles.fouCor, handles.fouDis, handles.fouSnrCor, handles.fouSnrSig] = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c);
 % plot(handles.xaxis, handles.norCor);
 
 handles.output = hObject;
@@ -84,19 +84,158 @@ function varargout = main_OutputFcn(hObject, eventdata, handles)
 varargout{1} = handles.output;
 
 
-% --- Executes on button press in pushbutton1.
-function pushbutton1_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+% --- Executes on button press in correlateButton.
+function correlateButton_Callback(hObject, eventdata, handles)
+
 axes(handles.normalCorrelation);
 plot(handles.xaxis, handles.norCor);
-xlabel('Distance [m]');
-ylabel('Correlation');
-title('Normal Correlation');
+managePlot(handles.xaxis, false);
+set(handles.norCorTx, 'String', num2str(handles.norSnrCor));
+set(handles.norSigTx, 'String', num2str(handles.norSnrSig));
+set(handles.norDisTx, 'String', num2str(handles.norDis));
 
 axes(handles.fourierCorrelation);
 plot(handles.xaxis, handles.fouCor);
-xlabel('Distance [m]');
-ylabel('Correlation');
-title('Fourier Correlation');
+managePlot(handles.xaxis, true);
+set(handles.fouCorTx, 'String', num2str(handles.fouSnrCor));
+set(handles.fouSigTx, 'String', num2str(handles.fouSnrSig));
+set(handles.fouDisTx, 'String', num2str(handles.fouDis));
+
+
+
+function boxCorFou_Callback(hObject, eventdata, handles)
+% hObject    handle to boxCorFou (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of boxCorFou as text
+%        str2double(get(hObject,'String')) returns contents of boxCorFou as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function boxCorFou_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to boxCorFou (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function boxSigFou_Callback(hObject, eventdata, handles)
+% hObject    handle to boxSigFou (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of boxSigFou as text
+%        str2double(get(hObject,'String')) returns contents of boxSigFou as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function boxSigFou_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to boxSigFou (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function boxSigNor_Callback(hObject, eventdata, handles)
+% hObject    handle to boxSigNor (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of boxSigNor as text
+%        str2double(get(hObject,'String')) returns contents of boxSigNor as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function boxSigNor_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to boxSigNor (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function boxCorNor_Callback(hObject, eventdata, handles)
+% hObject    handle to boxCorNor (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of boxCorNor as text
+%        str2double(get(hObject,'String')) returns contents of boxCorNor as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function boxCorNor_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to boxCorNor (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function boxDisFou_Callback(hObject, eventdata, handles)
+% hObject    handle to boxDisFou (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of boxDisFou as text
+%        str2double(get(hObject,'String')) returns contents of boxDisFou as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function boxDisFou_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to boxDisFou (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function boxDisNor_Callback(hObject, eventdata, handles)
+% hObject    handle to boxDisNor (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of boxDisNor as text
+%        str2double(get(hObject,'String')) returns contents of boxDisNor as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function boxDisNor_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to boxDisNor (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+    
