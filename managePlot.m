@@ -16,9 +16,9 @@ function [] = managePlot(xaxis, fourier)
     ylabel('Correlation');
     
     if(fourier)
-        title('Normal Correlation');
-    else
         title('Fourier Correlation');
+    else
+        title('Normal Correlation');
     end
     
     xlim([xaxis(1) xaxis(length(xaxis))]);
