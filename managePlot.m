@@ -23,5 +23,7 @@ function [] = managePlot(xaxis, fourier)
     
     xlim([xaxis(1) xaxis(length(xaxis))]);
     
+    set(gca, 'ytick', []);
+    
 end
 

@@ -80,8 +80,8 @@ guidata(hObject, handles);
 %       done in the future.
 function correlateButton_Callback(hObject, eventdata, handles)
 %1. 
-[handles.xaxis, handles.norCor, handles.norDis, handles.norSnrCor, handles.norSnrSig] = correlate(handles.filename1, handles.filename2, handles.pulse, handles.m, handles.fFPGA, handles.fReal, handles.n, handles.c);
-[handles.xaxis, handles.fouCor, handles.fouDis, handles.fouSnrCor, handles.fouSnrSig] = correlateFourier(handles.filename1, handles.filename2, handles.pulse, handles.m, handles.fFPGA, handles.fReal, handles.n, handles.c);
+[handles.xaxis, handles.norCor, handles.norDis, handles.norSnrCor, handles.norSnrSig, handles.norSupRatio] = correlate(handles.filename1, handles.filename2, handles.pulse, handles.m, handles.fFPGA, handles.fReal, handles.n, handles.c);
+[handles.xaxis, handles.fouCor, handles.fouDis, handles.fouSnrCor, handles.fouSnrSig, handles.fouSupRatio] = correlateFourier(handles.filename1, handles.filename2, handles.pulse, handles.m, handles.fFPGA, handles.fReal, handles.n, handles.c);
 
 %-%-Normal Correlation-%-%
 
@@ -90,13 +90,14 @@ function correlateButton_Callback(hObject, eventdata, handles)
 axes(handles.normalCorrelation);
 
 % Plots and manages the plot titles and axis
-plot(handles.xaxis, handles.norCor);
+plot(handles.xaxis, handles.norCor, 'k');
 managePlot(handles.xaxis, false);
 
 % Displays the results received
 set(handles.norCorTx, 'String', num2str(handles.norSnrCor));
 set(handles.norSigTx, 'String', num2str(handles.norSnrSig));
 set(handles.norDisTx, 'String', num2str(handles.norDis));
+set(handles.norSupTx, 'String', num2str(handles.norSupRatio));
 
 %-%-Fourier Correlation-%-%
 
@@ -105,13 +106,14 @@ set(handles.norDisTx, 'String', num2str(handles.norDis));
 axes(handles.fourierCorrelation);
 
 % Plots and manages the plot titles and axis
-plot(handles.xaxis, handles.fouCor);
+plot(handles.xaxis, handles.fouCor, 'k');
 managePlot(handles.xaxis, true);
 
 % Displays the results received
 set(handles.fouCorTx, 'String', num2str(handles.fouSnrCor));
 set(handles.fouSigTx, 'String', num2str(handles.fouSnrSig));
 set(handles.fouDisTx, 'String', num2str(handles.fouDis));
+set(handles.fouSupTx, 'String', num2str(handles.fouSupRatio));
 
 % Finally, it refreshes all the values
 guidata(hObject, handles)

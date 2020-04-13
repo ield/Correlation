@@ -32,7 +32,9 @@ pos = find(sig == sigMax);
 sig = circshift(sig, -pos+1);
 
 %% Comparison
-%It is compared whether each point is a new second maximum
+%It is compared whether each point is a new second maximum. To calculate
+%the power of noise the formula is Eq. 2.22 of pag 9 of T2 of "Apuntes de
+%Teoria de la Comunicacion"
 lastMax = 0;
 noiseRMS = 0;
 
@@ -42,15 +44,16 @@ for i = 1:m-1
             lastMax = sig(i*pulse - pulse / 2 + j);
         end
     end
-    noiseRMS = noiseRMS + lastMax^2;
+    noiseRMS = noiseRMS + lastMax;
     lastMax = 0;
 end
 
-noiseRMS = sqrt(noiseRMS / (m - 1));
+noiseRMS = noiseRMS / (m - 1);
 
 %% Calculating snr
-% It is used 20log because the measures are voltages.
-snr = 20*log10(sigMax / noiseRMS);
+% It is used 10log because the measures are powers. The correlation is the
+% reult of multiplying v*v. 
+snr = 10*log10(sigMax / noiseRMS);
 
 end
 
