@@ -24,16 +24,11 @@ correlation = circshift(correlation, -pos+1);
 secMax = 0;
 
 if(pulse == 1)
-    for i = 3:(length(correlation)-pulse)
-        if(correlation(i)> secMax)
-            secMax = correlation(i);
-        end
-    end
-else
-    for i = pulse:(length(correlation)-pulse)
-        if(correlation(i)> secMax)
-            secMax = correlation(i);
-        end
+    
+    el
+for i = pulse:(length(correlation)-pulse)
+    if(correlation(i)> secMax) 
+        secMax = correlation(i);
     end
 end
 
