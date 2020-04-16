@@ -63,9 +63,6 @@ correlation = perCorr(signal1, signal2);
 %   divided by 2
 
 xaxis = 0 : vt / length(correlation) * m : (length(correlation)-1)/length(correlation)*m*vt;
-if(isAir) 
-    xaxis = xaxis / 2;
-end
 %% 5
 % The maximum of the correlation is found and its xaxis position is the
 % distance caused by the delay. 

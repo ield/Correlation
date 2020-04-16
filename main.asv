@@ -57,7 +57,6 @@ handles.c = 2.9979e8;       %Speed of light in vacuum
 
 handles.pulse = 80;         %Ideal number of points per pulse
 handles.m = 255;            %Length of the M-Sequence
-handles.isAir = 0;
 
 handles.fFPGA = 25;         %Ideal frequency of FPGA
 handles.fReal = 25.0134;    %Real frequency of FPGA
@@ -81,8 +80,8 @@ guidata(hObject, handles);
 %       done in the future.
 function correlateButton_Callback(hObject, eventdata, handles)
 %1. 
-[handles.xaxis, handles.norCor, handles.norDis, handles.norSnrCor, handles.norSnrSig, handles.norSupRatio] = correlate(handles.filename1, handles.filename2, handles.pulse, handles.m, handles.fFPGA, handles.fReal, handles.n, handles.c, handles.isAir);
-[handles.xaxis, handles.fouCor, handles.fouDis, handles.fouSnrCor, handles.fouSnrSig, handles.fouSupRatio] = correlateFourier(handles.filename1, handles.filename2, handles.pulse, handles.m, handles.fFPGA, handles.fReal, handles.n, handles.c, handles.isAir);
+[handles.xaxis, handles.norCor, handles.norDis, handles.norSnrCor, handles.norSnrSig, handles.norSupRatio] = correlate(handles.filename1, handles.filename2, handles.pulse, handles.m, handles.fFPGA, handles.fReal, handles.n, handles.c);
+[handles.xaxis, handles.fouCor, handles.fouDis, handles.fouSnrCor, handles.fouSnrSig, handles.fouSupRatio] = correlateFourier(handles.filename1, handles.filename2, handles.pulse, handles.m, handles.fFPGA, handles.fReal, handles.n, handles.c);
 
 %-%-Normal Correlation-%-%
 
@@ -195,16 +194,6 @@ set(hObject,'String',filename);
 
 % Finally, it refreshes all the values
 guidata(hObject, handles)
-
-
-%% Check box air vs fiber.
-% This checkbox decides whether the measurements is done in air or fiber.
-% The value is stored in a boolean isAir.
-function airCB_Callback(hObject, eventdata, handles)
-
-handles.isAir = get(handles.airCB, 'value');
-guidata(hObject, handles)
-
 
 %% Here ends the part I have done. The rest is done by default
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -449,3 +438,8 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
+
+% --- Executes on button press in airCB.
+function airCB_Callback(hObject, eventdata, handles)
+
+handles.isAir = get(handles.airCB.checkbox, 'value');

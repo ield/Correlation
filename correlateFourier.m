@@ -1,7 +1,7 @@
 %Engineer: ield
 %Company: ALTER-UPM
 
-function [xaxis, correlation, distance, snrCor, snrSig, supRatio] = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c)
+function [xaxis, correlation, distance, snrCor, snrSig, supRatio] = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c, isAir)
 %% General Explanation
 %Correlate returns the distance between two signals
 %   #1: Extracts the signal from .txt files
@@ -23,6 +23,8 @@ function [xaxis, correlation, distance, snrCor, snrSig, supRatio] = correlateFou
 %n stands for the refraction index of the fiber, corresponding to the value
 %   of the OTDR
 %c stands for the speed of light in vacuum.
+%isAir reflects whether the correlation is done in air or not, so that the
+%   xaxis and the distance are adjusted 
 
 vt = (1/(fReal*1e6))*(c/n);
 
@@ -70,6 +72,9 @@ correlation = circshift(correlation, -1);
 correlation = flip(correlation);
 
 xaxis = 0 : vt / length(correlation) * m : (length(correlation)-1)/length(correlation)*m*vt;
+if(isAir) 
+    xaxis = xaxis / 2;
+end
 
 %% 5
 % The maximum of the correlation is found and its xaxis position is the
