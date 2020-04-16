@@ -81,8 +81,8 @@ guidata(hObject, handles);
 %       done in the future.
 function correlateButton_Callback(hObject, eventdata, handles)
 %1. 
-[handles.xaxis, handles.norCor, handles.norDis, handles.norSnrCor, handles.norSnrSig, handles.norSupRatio] = correlate(handles.filename1, handles.filename2, handles.pulse, handles.m, handles.fFPGA, handles.fReal, handles.n, handles.c, handles.isAir);
-[handles.xaxis, handles.fouCor, handles.fouDis, handles.fouSnrCor, handles.fouSnrSig, handles.fouSupRatio] = correlateFourier(handles.filename1, handles.filename2, handles.pulse, handles.m, handles.fFPGA, handles.fReal, handles.n, handles.c, handles.isAir);
+[handles.xaxis, handles.norCor, handles.norDis, handles.norDisInter, handles.norSnrCor, handles.norSnrSig, handles.norSupRatio] = correlate(handles.filename1, handles.filename2, handles.pulse, handles.m, handles.fFPGA, handles.fReal, handles.n, handles.c, handles.isAir);
+[handles.xaxis, handles.fouCor, handles.fouDis, handles.fouDisInter, handles.fouSnrCor, handles.fouSnrSig, handles.fouSupRatio] = correlateFourier(handles.filename1, handles.filename2, handles.pulse, handles.m, handles.fFPGA, handles.fReal, handles.n, handles.c, handles.isAir);
 
 %-%-Normal Correlation-%-%
 
@@ -99,6 +99,7 @@ set(handles.norCorTx, 'String', num2str(handles.norSnrCor));
 set(handles.norSigTx, 'String', num2str(handles.norSnrSig));
 set(handles.norDisTx, 'String', num2str(handles.norDis));
 set(handles.norSupTx, 'String', num2str(handles.norSupRatio));
+set(handles.norDisInterTx, 'String', num2str(handles.norDisInter));
 
 %-%-Fourier Correlation-%-%
 
@@ -115,6 +116,7 @@ set(handles.fouCorTx, 'String', num2str(handles.fouSnrCor));
 set(handles.fouSigTx, 'String', num2str(handles.fouSnrSig));
 set(handles.fouDisTx, 'String', num2str(handles.fouDis));
 set(handles.fouSupTx, 'String', num2str(handles.fouSupRatio));
+set(handles.fouDisInterTx, 'String', num2str(handles.fouDisInter));
 
 % Finally, it refreshes all the values
 guidata(hObject, handles)

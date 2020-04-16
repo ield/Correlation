@@ -30,9 +30,10 @@ if(pulse == 1)
         end
     end
 else
-    for i = pulse:(length(correlation)-pulse)
+    for i = 2*pulse:(length(correlation)-2*pulse)
         if(correlation(i)> secMax)
             secMax = correlation(i);
+            iMax = i;
         end
     end
 end

@@ -1,7 +1,7 @@
 %Engineer: ield
 %Company: ALTER-UPM
 
-function [xaxis, correlation, distance, snrCor, snrSig, supRatio] = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c, isAir)
+function [xaxis, correlation, distance, distanceInter, snrCor, snrSig, supRatio] = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c, isAir)
 %% General Explanation
 %Correlate returns the distance between two signals
 %   #1: Extracts the signal from .txt files
@@ -83,6 +83,8 @@ corMax = max(correlation);
 pos = find(correlation == corMax);
 
 distance = xaxis(pos);
+
+distanceInter = interpole(xaxis(pos-1:pos+1), correlation(pos-1:pos+1));
 
 snrCor = calculateSNR(correlation, m, pulse);
 
