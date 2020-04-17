@@ -51,7 +51,7 @@ signal2 = signal2 - meanS2;
 %   would be equal.
 
 correlation = perCorr(signal1, signal2);
-
+length(correlation)
 
 %% 4
 % In this case, in stead of displaying the lags, the maximum of the

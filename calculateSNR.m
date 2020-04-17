@@ -38,15 +38,16 @@ sig = circshift(sig, -pos+1);
 lastMax = 0;
 noiseRMS = 0;
 
+
 if(pulse == 1)
-    for i = 2:m-1
+    for i = 2:m-2
         noiseRMS = noiseRMS + sig(i);
     end
 else
-    for i = 1:m-1
+    for i = 2:m-2
         for j = 0:pulse
-            if(sig(i*pulse - pulse / 2 + j) > lastMax)
-                lastMax = sig(i*pulse - pulse / 2 + j);
+            if(sig(i*pulse + j) > lastMax)
+                lastMax = sig(i*pulse + j);
             end
         end
         noiseRMS = noiseRMS + lastMax;
@@ -56,7 +57,7 @@ end
 
 
 
-noiseRMS = noiseRMS / (m - 1);
+noiseRMS = noiseRMS / (m -4);
 
 %% Calculating snr
 % It is used 10log because the measures are powers. The correlation is the
