@@ -40,14 +40,14 @@ corrSup = [];
 
 for i = 1:length(rx_noav) 
     rx = [filepath, rx_noav(i).name];
-    [~,~,~,~,snr,~,sup] = correlateFourier(tx, rx, pulse, m, fFPGA, fReal, n, c, isAir);
+    [snr, sup] = correlateFourierAttenuation(tx, rx, pulse, m, fFPGA, fReal, n, c, isAir);
     corrSNR = [corrSNR snr];
     corrSup = [corrSup sup];
 end
 
-corrSNR
-corrSup
 
+% corrSNR = [18.15 18.28 16.70 10.4 10.88 7.89 7.30];
+% corrSup = [16.31 13.28 10.98 2.52 2.93 4.77 3.29];
 
 plotAttenuationResults(attenuation, [corrSNR; corrSup]);
 
@@ -59,12 +59,14 @@ corrSup = [];
 
 for i = 1:length(rx_av) 
     rx = [filepath, rx_av(i).name];
-    [~,~,~,~,snr,~,sup] = correlateFourier(tx, rx, pulse, m, fFPGA, fReal, n, c, isAir);
+    [~,~,~,~,snr, sup] = correlateFourier(tx, rx, pulse, m, fFPGA, fReal, n, c, isAir);
     corrSNR = [corrSNR snr];
     corrSup = [corrSup sup];
 end
 
 corrSNR
 corrSup
+% corrSNR = [18.15 18.28 16.70 10.4 10.88 7.89 7.30];
+% corrSup = [16.31 13.28 10.98 2.52 2.93 4.77 3.29];
 
 plotAttenuationResults(attenuation, [corrSNR; corrSup]);
