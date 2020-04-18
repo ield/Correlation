@@ -84,8 +84,8 @@ pos = find(correlation == corMax);
 
 distance = xaxis(pos);
 
-distanceInter = interpole(xaxis(pos-1:pos+1), correlation(pos-1:pos+1));
-
+% distanceInter = interpole(xaxis(pos-1:pos+1), correlation(pos-1:pos+1));
+distanceInter = 0;
 snrCor = calculateSNR(correlation, m, pulse);
 
 snrSig = signalSNR(signal1, signal2, correlation);
