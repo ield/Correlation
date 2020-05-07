@@ -26,6 +26,10 @@ filename1 = "rx_1000m_1pts.txt";
 
 signal1 = textToSignal(filename1, pulse, m, fFPGA, fReal);
 signal1 = round(signal1*(2^16-1)/3.3);
+% It is necessary to do a circshift because the oscillosocope captures the
+% signal not starting in the seed but with the seed in the middle. Thus, it
+% is necessary to circshift half of the signal
+signal1 = circshift(signal1, -128); 
 
 fileID = fopen('verilogData.txt','w');
 
@@ -37,7 +41,7 @@ for i = 1:length(signal1)
     fprintf(fileID,'#2\n');
     
     % Prints the signal to enter
-    fprintf(fileID,'vacIn_tb = 16''');
+    fprintf(fileID,'vacIn_tb = 16''b');
     
     % Converts the signal from decimal to binary
     signalBin = decToBin(signal1(i));
@@ -45,7 +49,7 @@ for i = 1:length(signal1)
     for j = 1:length(signalBin)
         fprintf(fileID,'%u', signalBin(j));        
     end
-    fprintf(fileID,'\n');
+    fprintf(fileID,';\n');
     end
 
 fclose(fileID);
