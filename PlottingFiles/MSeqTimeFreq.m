@@ -51,6 +51,15 @@ plotMSeqTime(xaxis, tx);
 ylim([-1.25 1.25]);
 xlim([0 xaxis(end)]);
 
+%% Plot autocorrelation
+L = length(tx);
+
+correlation = FourierCorr(tx, tx);
+correlation = circshift(correlation, round((length(correlation)-1)/2));
+xaxis = -(L-1)/(2*Fs) : 1/Fs : (L-1)/(2*Fs);
+xaxis = xaxis*1e6*40;
+plotMSeqCorrelation(xaxis, correlation);
+
 %% Conforming signal in Frequency domain
 
 TX = fft(tx);
@@ -69,5 +78,5 @@ TX = abs(TX)/L;
 f = Fs*(0:round(L/2))/(L*1e6); 
 
 plotMSeqFreq(f, TX);
-xlabel('Frecuency [MHz]');
-xlim([0 f(end)]);
+% xlabel('Frecuency [MHz]');
+% xlim([0 f(end)]);

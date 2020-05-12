@@ -50,6 +50,6 @@ for i = 1:length(signal1)
         fprintf(fileID,'%u', signalBin(j));        
     end
     fprintf(fileID,';\n');
-    end
+end
 
 fclose(fileID);

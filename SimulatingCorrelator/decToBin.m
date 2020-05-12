@@ -1,3 +1,6 @@
+%% Function obtained from 
+% https://ww2.mathworks.cn/matlabcentral/fileexchange/36773-decimal-a-binario?focused=5232763&tab=function
+
 function [x] = decToBin(dividendo)
 divisor=2;
 cociente=0;
