@@ -92,7 +92,7 @@ for i = 1:length(tx_files)
 end
 
 
-% plotSamplingResultsDistance(samples, [distance; distanceInter], xax(1,:), yax(1,:), xax(2,:), yax(2,:),xax(3,:), yax(3,:),xax(4,:), yax(4,:));
+plotSamplingResultsDistance(samples, [distance; distanceInter], xax(1,:), yax(1,:), xax(2,:), yax(2,:),xax(3,:), yax(3,:),xax(4,:), yax(4,:));
 
 
 %% Calculating the quality of the signal
@@ -116,6 +116,21 @@ snrCorrAtt
 y = [snrSigDis; snrSigAtt; snrCorrDis; snrCorrAtt].';
 
 plotSamplingResultsQuality(samples, y);
+
+%% Plot signal received with 100MSa/s
+filename1 = 'rx_4pts_53dB.txt';
+
+tx = textToSignal(filename1, 4, m, fFPGA, fReal);
+L = length(tx);
+
+Fs = 100e6;
+
+xaxis = 0 : 1/Fs : (L-1)/Fs;
+xaxis = xaxis*1e6;
+
+plotMSeqTime(xaxis, tx);
+ylim([-1.25 1.25]);
+xlim([0 xaxis(end)]);
 
 % Here it plots
 % figure;

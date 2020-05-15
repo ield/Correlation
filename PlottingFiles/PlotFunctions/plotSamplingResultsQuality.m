@@ -31,11 +31,12 @@ xlabel({'Smaples'});
 % Uncomment the following line to preserve the X-limits of the axes
 xlim(axes1,[0 11]);
 % Uncomment the following line to preserve the Y-limits of the axes
-ylim(axes1,[-25 25]);
+ylim(axes1,[-20 25]);
 box(axes1,'on');
 % Set the remaining axes properties
-set(axes1,'FontName','Times New Roman','FontSize',9,'XTick',[1 2 4 10],...
-    'YTick',[-25 0 25]);
+set(axes1,'FontName','Times New Roman','FontSize',9,'XTick',...
+    [1 2 3 4 5 6 7 8 9 10],'XTickLabel',...
+    {'1','2','3','4','5','6','7','8','9','10'});
 % Create legend
 legend1 = legend(axes1,'show');
 set(legend1,...

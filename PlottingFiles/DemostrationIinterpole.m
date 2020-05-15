@@ -11,7 +11,7 @@ clear;
 n = 1.468;          %Fiber refraction index
 c = 2.9979e8;       %Speed of light in vacuum
 
-pulse = 80;         %Ideal number of points per pulse
+pulse = 1;         %Ideal number of points per pulse
 m = 255;            %Length of the M-Sequence
 
 fFPGA = 25;         %Ideal frequency of FPGA
@@ -25,11 +25,11 @@ Fs = 2e9;           % Sampling rate of the oscilloscope
 
 %% Importing and conforming signals in time domain
 
-filename1 = 'tx.txt';
+filename1 = 'tx_1pts.txt';
 tx = textToSignal(filename1, pulse, m, fFPGA, fReal);
 
 
-filename2 = '1000mrx.TXT';
+filename2 = 'rx_1000m_1pts.txt';
 rx = textToSignal(filename2, pulse, m, fFPGA, fReal);
 
 

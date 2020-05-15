@@ -62,11 +62,11 @@ xaxis = 0 : 1/Fs : (L-1)/Fs;
 xaxis = xaxis*1e6;
 
 subplot(2,1,1);
-plot(xaxis, cwrm, 'k');
+plot(xaxis, cwrm, 'k', 'LineWidth', 3);
 ylim([-1.25 1.25]);
 xlim([0 xaxis(end)]);
 
 subplot(2,1,2)
-plot(xaxis, ps, 'k');
+plot(xaxis, ps, 'k', 'LineWidth', 3);
 ylim([-1.25 1.25]);
 xlim([0 xaxis(end)]);

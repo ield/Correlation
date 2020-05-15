@@ -11,7 +11,7 @@ clear;
 n = 1.468;          %Fiber refraction index
 c = 2.9979e8;       %Speed of light in vacuum
 
-pulse = 1;         %Ideal number of points per pulse
+pulse = 4;         %Ideal number of points per pulse
 m = 255;            %Length of the M-Sequence
 
 fFPGA = 25;         %Ideal frequency of FPGA
@@ -22,14 +22,15 @@ fReal = 25.0134;    %Real frequency of FPGA
 % fReal = 50.25;    %Real frequency of FPGA
 
 %% Import data
-filename1 = "rx_1000m_1pts.txt";
+filename1 = "rx_1000m_4pts.txt";
 
 signal1 = textToSignal(filename1, pulse, m, fFPGA, fReal);
 signal1 = round(signal1*(2^16-1)/3.3);
 % It is necessary to do a circshift because the oscillosocope captures the
 % signal not starting in the seed but with the seed in the middle. Thus, it
 % is necessary to circshift half of the signal
-signal1 = circshift(signal1, -128); 
+% signal1 = circshift(signal1, -128); //for pulse  = 1
+signal1 = circshift(signal1, -510); 
 
 fileID = fopen('verilogData.txt','w');
 
