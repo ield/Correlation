@@ -21,10 +21,13 @@ fReal = 25.0134;    %Real frequency of FPGA
 
 filename1 = 'tx.txt';
 
-filename2 = 'rx_45dB_av.txt';
+filename2 = 'col_nowall_av.txt';
+filename3 = 'col_20ma_noav.txt';
 
 %% For correlations
 
-[xaxis, norCor, ~, ~, ~, ~, ~] = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c, 0);
+[xaxis, norCor1, ~, ~, ~, ~, ~] = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c, 0);
+[~, norCor2, ~, ~, ~, ~, ~] = correlateFourier(filename1, filename3, pulse, m, fFPGA, fReal, n, c, 0);
 
-plotCorrDisShift(xaxis, norCor);
+plotCorrDisShift(xaxis, norCor2-norCor1);
+

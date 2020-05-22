@@ -92,7 +92,7 @@ for i = 1:length(tx_files)
 end
 
 
-plotSamplingResultsDistance(samples, [distance; distanceInter], xax(1,:), yax(1,:), xax(2,:), yax(2,:),xax(3,:), yax(3,:),xax(4,:), yax(4,:));
+plotSamplingResultsDistance(samples, [distance; distanceInter]', xax(1,:), yax(1,:), xax(2,:), yax(2,:),xax(3,:), yax(3,:),xax(4,:), yax(4,:));
 
 
 %% Calculating the quality of the signal

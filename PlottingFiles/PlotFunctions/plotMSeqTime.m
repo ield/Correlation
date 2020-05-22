@@ -28,4 +28,4 @@ xlabel({'Time (\mus)'},'FontName','Times New Roman');
 box(axes1,'on');
 % Set the remaining axes properties
 set(axes1,'FontName','Times New Roman','FontSize',9,'YTick',[-1 1],...
-    'YTickLabel',{'0','a'});
+    'YTickLabel',{'-\surd(P_x)','\surd(P_x)'});

@@ -17,12 +17,15 @@ plot(X1,Y1,'Color',[0 0 0]);
 
 % Create ylabel
 ylabel({'r_x_y[m]'},'FontName','Times New Roman');
+ylim(axes1,[0 1.05*max(Y1)]);
 
 % Create xlabel
 xlabel({'Delay (chips)'},'FontName','Times New Roman');
 
 % Uncomment the following line to preserve the X-limits of the axes
-% xlim(axes1,[0 10100]);
+xlim(axes1,[0 max(X1)]);
 box(axes1,'on');
 % Set the remaining axes properties
-set(axes1,'FontName','Times New Roman','FontSize',9);
+
+set(axes1,'FontName','Times New Roman','FontSize',9,'YTick',[0 max(Y1)],...
+    'YTickLabel',{'0','N P_x'});

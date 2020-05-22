@@ -28,4 +28,4 @@ ylim(axes1,[0 0.134166666666667]);
 box(axes1,'on');
 % Set the remaining axes properties
 set(axes1,'FontName','Times New Roman','FontSize',9,'TickLength',[0 0],...
-    'XTick',[0 20 40 60 80 100],'YTick',[0 0.1269],'YTickLabel',{'0','4 a^2'});
+    'XTick',[0 20 40 60 80 100],'YTick',[0 0.1269],'YTickLabel',{'0','2\surd(P_x)'});
