@@ -45,10 +45,12 @@ ylabel({'Amplitude (V)'});
 xlabel({'Time(\mus)'},'FontSize',9,'FontName','Times New Roman');
 
 % Uncomment the following line to preserve the X-limits of the axes
-xlim(axes1,[0 1.0194]);
+xlim(axes1,[0 X1(end)]);
 % Uncomment the following line to preserve the Y-limits of the axes
-ylim(axes1,[0.0084 0.0921]);
+%ylim(axes1,[0.03 0.042]);
 box(axes1,'on');
 % Set the remaining axes properties
+% set(axes1,'FontName','Times New Roman','FontSize',9,'YTick',[0.01 0.08],...
+%     'YTickLabel',{'0.01','0.08'});
 set(axes1,'FontName','Times New Roman','FontSize',9,'YTick',[0.01 0.08],...
-    'YTickLabel',{'0.01','0.08'});
+    'YTickLabel');

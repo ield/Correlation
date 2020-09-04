@@ -30,7 +30,7 @@ tx = textToSignal(filename1, pulse, m, fFPGA, fReal);
 % txMax = max(tx);
 % txMin = min(tx);
 
-filename2 = '1000mrx.TXT';
+filename2 = 'rx_55dB_av.txt';
 rx = textToSignal(filename2, pulse, m, fFPGA, fReal);
 % rxMax = max(rx);
 % rxMin = min(rx);
