@@ -38,6 +38,10 @@ signal2 = textToSignal(filename2, pulse, m, fFPGA, fReal);
 % hold on
 % plot(signal2, 'r');
 
+%OPTIONAL(when signal 2 is given)
+% signal2 = filename2;
+
+
 %% 2
 % The AC component is substracted.
 meanS1 = mean(signal1);
