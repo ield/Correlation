@@ -25,14 +25,22 @@ fReal = 25.0134;    %Real frequency of FPGA
 % fFPGA = 50;       %Ideal frequency of FPGA
 % fReal = 50.25;    %Real frequency of FPGA
 Fs = 2e9;           % Sampling rate of the oscilloscope
+isAir = 0;
 
 %% Importing and conforming signals in time domain
 
 filename1 = 'tx_new.txt';
 
-filename2 = 'cat_5cm2.txt';
-filename3 = 'nocat2.txt';
+filename2 = 'cat_5cm.txt';
+filename3 = 'nocat.txt';
 
+% Use this and only this for stretegy 2.1 (comment lines above)
+% filepath = 'CorrelatorFiles&Measurements/Reflections/';
+% tx = [filepath, 'tx_new.txt'];
+% rx_nocat = [filepath, 'nocat.txt'];
+% 
+% rx = dir([filepath, 'cat_*']);
+% distances = [5 15 25 45];
 
 %% Strategy 1
 % The signal sent is already the signal, so it is necessary to modify the
@@ -61,12 +69,28 @@ filename3 = 'nocat2.txt';
 % Substract correlations. The function xcorr must not be modified (if it
 % has been done strategy 1, the function must be set to its original
 % configuration).
-[~, corNoCat, ~, ~, ~, ~, ~] = correlateFourier(filename1, filename3, pulse, m, fFPGA, fReal, n, c, 0);
-[xaxis, cor, dis, ~, ~, ~, ~] = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c, 0);
-plot(xaxis, cor-corNoCat);
+[~, corNoCat, ~, disNoCat, ~, ~, ~] = correlateFourier(filename1, filename3, pulse, m, fFPGA, fReal, n, c, 0);
+[xaxis, cor, ~, dis, ~, ~, ~] = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c, 0);
+% plot(xaxis, corNoCat);
 
-max(cor-corNoCat)
+plotCorrDisShift(xaxis, corNoCat);
 
+% plotCorrDisShift(xaxis, cor-corNoCat);
+
+(dis - disNoCat) / 2
+
+% %% Strategy 2.1
+% % Same as before but all the files at the same time. Comment code in
+% % 'Importing and conforming signals in time domain'
+% 
+% [xaxis, corNoCat, ~, disNoCat, ~, ~, ~] = correlateFourier(tx, rx_nocat, pulse, m, fFPGA, fReal, n, c, isAir);
+% 
+% 
+% for i = 1:length(rx) 
+%     rxDistance = [filepath, rx(i).name];
+%     [~, cor, ~, dis, ~, ~, ~] = correlateFourier(tx, rxDistance, pulse, m, fFPGA, fReal, n, c, isAir);
+%     plotCorrDisShift(xaxis, cor-corNoCat)
+% end
 
 
 

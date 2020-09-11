@@ -22,7 +22,7 @@ ylabel({'r_x_y[m]'},'FontName','Times New Roman');
 xlabel({'Distance (m)'},'FontName','Times New Roman');
 
 % Uncomment the following line to preserve the X-limits of the axes
-xlim(axes1,[0 max(X1)]);
+xlim(axes1,[1800 max(X1)]);
 % Uncomment the following line to preserve the Y-limits of the axes
 % ylim(axes1,[0 0.0188649336687087]);
 box(axes1,'on');
