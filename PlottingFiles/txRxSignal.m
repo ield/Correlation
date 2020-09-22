@@ -25,12 +25,12 @@ Fs = 2e9;           % Sampling rate of the oscilloscope
 
 %% Importing and conforming signals in time domain
 
-filename1 = 'tx.txt';
+filename1 = 'tx_new.txt';
 tx = textToSignal(filename1, pulse, m, fFPGA, fReal);
 % txMax = max(tx);
 % txMin = min(tx);
 
-filename2 = 'rx_55dB_av.txt';
+filename2 = 'tx_2ao.txt';
 rx = textToSignal(filename2, pulse, m, fFPGA, fReal);
 % rxMax = max(rx);
 % rxMin = min(rx);

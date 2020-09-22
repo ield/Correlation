@@ -23,13 +23,12 @@ ylabel({'Amplitude (V)'});
 xlabel({'Time(\mus)'},'FontName','Times New Roman');
 
 % Uncomment the following line to preserve the X-limits of the axes
-xlim(subplot1,[0 1.0194]);
+xlim(subplot1,[0 X1(end)]);
 % Uncomment the following line to preserve the Y-limits of the axes
-ylim(subplot1,[-0.047 0.64]);
+% ylim(subplot1,[-0.047 0.64]);
 box(subplot1,'on');
 % Set the remaining axes properties
-set(subplot1,'FontName','Times New Roman','FontSize',9,'YTick',[0 0.6],...
-    'YTickLabel',{'0','0.6'});
+set(subplot1,'FontName','Times New Roman','FontSize',9);
 % Create axes
 axes1 = axes('Parent',figure1,...
     'Position',[0.13 0.170046189376443 0.775 0.341162790697674]);
