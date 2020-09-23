@@ -28,11 +28,11 @@ Fs = 2e9;           % Sampling rate of the oscilloscope
 isAir = 0;
 
 %% Importing and conforming signals in time domain
-
+filepath = 'C:/Users/nacho/Documents/MATLAB/Correlation/Measurements/FiberToAir_20200917/';
 filename1 = 'tx_new.txt';
 
-filename2 = 'notel.txt';
-filename3 = 'notel_nowall.txt';
+filename2 = [filepath, 'noTel.txt'];
+filename3 = [filepath, 'noTel_noRet.txt'];
 
 % % Use this and only this for stretegy 2.1 (comment lines above)
 % filepath = 'CorrelatorFiles&Measurements/EDFA/';
@@ -73,8 +73,8 @@ filename3 = 'notel_nowall.txt';
 [xaxis, cor, ~, dis, ~, ~, ~] = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c, 0);
 
 plotCorrDisShift(xaxis, cor);
-plotCorrDisShift(xaxis, corNoCat);
-
+% plotCorrDisShift(xaxis, corNoCat);
+% 
 plotCorrDisShift(xaxis, cor-corNoCat);
 
 (dis - disNoCat) / 2
@@ -99,7 +99,7 @@ plotCorrDisShift(xaxis, cor-corNoCat);
 %   No catadioptric: nocat_1 - nocat_5
 %   Distance xcm_1 - xcm_5
 %   Retrorreflector: rrNear_1 - rrNear_5 and rrFar_1 - rrFar_5
-filepath = 'CorrelatorFiles&Measurements/EDFA/MultipleMeasures';
+filepath = 'C:/Users/nacho/Documents/MATLAB/Correlation/Measurements/MeasuringDistances_20200917/';
 
 tx = [filepath, 'tx_new.txt'];
 
@@ -119,24 +119,23 @@ rrFar = dir([filepath, 'rrFar_*'])';
 rx = [nocat; rx5cm; rx15cm; rx25cm; rx45cm; rrNear; rrFar];
 
 % An array of different points is created so that it is known the color
-dataTips = ['-k', '--k', ':k', '-.k', '-r', '--r', ':r'];
+dataTips = ['k', '--k', ':k', '-.k', '-r', '--r', ':r'];
 
 % All the correlations are done and it is stored the distance and the
 %   maximum of the correlation in the variable results
-maxima = zeros(length(rx(:, 1)), length(rx(1, :)));
+% maxima = zeros(length(rx(:, 1)), length(rx(1, :)));
 correlations = [];
-axis = [];
+[axis, ~] = correlateFourierReduced(tx, [filepath, rx(1, 1).name], pulse, m, fFPGA, fReal, n, c, isAir);
 
 for ii = 1:length(rx(:, 1)) %For each row
     for jj = 1:length(rx(1, :)) %For each column of that row: each measure
         rxMeasure = [filepath, rx(ii, jj).name];
-        [xaxis, cor, ~, dis, ~, ~, ~] = correlateFourier(tx, rxMeasure, pulse, m, fFPGA, fReal, n, c, isAir);
-        axis = xaxis;
-        
-        maxima(ii, jj, 1) = dis;
-        correlations =  [correlations; cor];
+        [~, cor] = correlateFourierReduced(tx, rxMeasure, pulse, m, fFPGA, fReal, n, c, isAir);        
+        % maxima(ii, jj, 1) = dis;
+        correlations =  [correlations; cor'];
     end
 end
+"All correlations done"
 
 %Up to this point it has been created a matrix with each maximum of the
 %   correlation and distance of the target. Not it is necesary to subtract
@@ -148,24 +147,58 @@ end
 %   of nocat_2-5 are compared with nocat_1.
 %   Each correlation is determined by ii and jj because they are the first
 %   row
-
+figure('Color',[1 1 1]);
 for ii = 1:length(rx(1, :))-1 %All the values except for 5 because it will have been compared
     for jj = ii+1:length(rx(1, :))
-        plot(xaxis, correlations(ii)-correlations(jj), datatips(1));
+        plot(xaxis, correlations(ii, :)-correlations(jj, :), 'k');
         hold on;
     end
 end
+"First plots done"
 
 % Second, all the subtractions are done. In this case, each measure is
 %   compared with all the nocat measures
 for ii = 2:length(rx(:, 1)) % All the values except the ones with nocat (already taken care)
+    "Start second round of correlations"
+    figure('Color',[1 1 1]);
     for jj = 1:length(rx(1, :))
-        corMeasured = correlations((ii-1)*length(rx(1, :))+jj); % Selects the correlation of this scennario.
+        corMeasured = correlations((ii-1)*length(rx(1, :))+jj, :); % Selects the correlation of this scennario.
         for kk = 1:length(rx(1, :)) %All the correlations in the first row
-            plot(xaxis, corMeasured-correlations(kk), datatips(ii));
+            plot(xaxis, corMeasured-correlations(kk, :), 'k');
             hold on;
         end
     end
+    xlim([xaxis(1) xaxis(end)]);
+    xlabel('Distance [m]');
+    ylabel('Correlation subtraction');
 end
+"End of program"
+
+%% Optical trap and silver fiber
+filename1 = 'tx_new.txt';
+tx = textToSignal(filename1, pulse, m, fFPGA, fReal);
+L = length(tx);
+%Axis definition for plotting
+xaxis = 0 : 1/Fs : (L-1)/Fs;
+xaxis = xaxis*1e6;
+
+files = ["tel_norm.txt"; "optical_trap.txt"; "silver_25dB.txt"; "laser_25dB.txt"];
+
+amp25dB = 10^(50/20);
+amplification = [1 1 amp25dB amp25dB];
+
+filesPow = zeros(1, length(files));
+
+for ii = 1:length(files)
+    signal = amplification(ii)*textToSignal(files(ii), pulse, m, fFPGA, fReal);
+    meanS = mean(signal);
+    signal = signal - meanS;
+    filesPow(ii) = 10*log10(sigPower(signal)*1e3);  % Power in dBm
+    plot(xaxis, signal);
+    hold on;
+end
+
+filesPow
+
 
 
