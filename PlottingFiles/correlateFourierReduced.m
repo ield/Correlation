@@ -1,7 +1,7 @@
 %Engineer: ield
 %Company: ALTER-UPM
 
-function [xaxis, correlation] = correlateFourierReduced(filename1, filename2, pulse, m, fFPGA, fReal, n, c, isAir)
+function [xaxis, correlation, distance] = correlateFourierReduced(filename1, filename2, pulse, m, fFPGA, fReal, n, c, isAir)
 %% General Explanation
 % Reduced version of correlate fourier with less functions and shorter
 % responses in order to save memory.
@@ -70,7 +70,7 @@ correlation = correlation(round(length(correlation)*k):end);
 corMax = max(correlation);
 pos = find(correlation == corMax);
 
-% distance = xaxis(pos);
+distance = xaxis(pos);
 % distanceInter = interpole(xaxis(pos-1:pos+1), correlation(pos-1:pos+1));
 % distanceInter = 0;
 

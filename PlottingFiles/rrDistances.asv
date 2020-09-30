@@ -1,0 +1,62 @@
+%Engineer: ield
+%Company: ALTER-UPM
+
+%% Descripcion del Script
+% This program is made to compared the distances at which the rr is
+% measured. It can be used to measure other targets
+
+
+filepath = 'C:/Users/nacho/Documents/MATLAB/Correlation/Measurements/MeasuringDistances_20201001/';
+
+tx = [filepath, 'tx_new.txt'];          % Tx file: used for correlation
+nocat = [filepath, 'ar_Tel_Nocat.txt'];    
+% The name of the plots must be:
+%   Distance xcm_1 - xcm_5
+
+% The distances are determined by an initial value and a step between
+%   measures (all in cm)
+
+ini = 10;
+step = 10;
+last = 200;
+
+% All received files are grouped into a matrix. Normally, the result would
+%   be a vector, but they are transposed so that they are an array. When
+%   they are put all together in rx, each row corresponds to one kind of
+%   reception (5cm, etc.) and each column to one of the measures of
+%   that reception
+
+positions = ini:step:last;      % All positions, used to search the name of the files
+rx = [];
+
+for ii = 1:length(positions)
+    rx = [rx; dir([filepath, num2str(positions(ii)), 'cm_*'])'];   %It is added the new row for each distance with the columns corresponding to the measurements at that distance3
+end
+
+
+% All the correlations are done and it is stored the distance
+[~, ~, disTel] = correlateFourierReduced(tx, nocat, pulse, m, fFPGA, fReal, n, c, isAir);
+% All the correlations are done and it is stored the distance and the
+%   maximum of the correlation in the variable results
+maxima = zeros(length(rx(:, 1)), length(rx(1, :)));
+
+for ii = 1:length(rx(:, 1)) %For each row
+    for jj = 1:length(rx(1, :)) %For each column of that row: each measure
+        rxMeasure = [filepath, rx(ii, jj).name];
+        [~, ~, dis] = correlateFourierReduced(tx, rxMeasure, pulse, m, fFPGA, fReal, n, c, isAir);        
+        maxima(ii, jj) = (dis-disTel)/2; % Now it is necesary to subtract the distance measured to the ones of the telescope
+    end
+end
+"All correlations done"
+
+% Now it is
+
+figure('Color',[1 1 1]);
+for ii = 1:length(maxima(:, 1)) %For each row
+    for jj = 1:length(maxima(1, :)) %For each column of that row: each measure
+        plot(positions(ii), maxima(ii, jj), '+k');
+        hold on;
+    end
+end
+
+
