@@ -80,3 +80,29 @@ f = Fs*(0:round(L/2))/(L*1e6);
 plotMSeqFreq(f, TX);
 % xlabel('Frecuency [MHz]');
 % xlim([0 f(end)]);
+
+%% Comparison of old and new tx
+filename1 = 'tx.txt';
+
+tx = textToSignal(filename1, pulse, m, fFPGA, fReal);
+meanTx = mean(tx);
+tx = 2*(tx - meanTx);
+L = length(tx);
+
+xaxis = 0 : 1/Fs : (L-1)/Fs;
+xaxis = xaxis*1e6;
+figure('Color',[1 1 1]);
+plot(xaxis, tx);
+xlim([0 xaxis(end)]);
+hold on;
+xlabel('Time (\mus)');
+ylabel('Voltage (V)');
+
+filename2 = 'TX_2AO_filtered.txt';
+
+tx_new = textToSignal(filename2, pulse, m, fFPGA, fReal);
+tx_new = tx_new(1:length(tx));
+meanTx = mean(tx);
+tx_new = tx_new - meanTx;
+plot(xaxis, tx_new);
+hold off

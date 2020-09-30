@@ -28,11 +28,11 @@ Fs = 2e9;           % Sampling rate of the oscilloscope
 isAir = 0;
 
 %% Importing and conforming signals in time domain
-filepath = 'C:/Users/nacho/Documents/MATLAB/Correlation/Measurements/FiberToAir_20200917/';
+filepath = 'C:/Users/nacho/Documents/MATLAB/Correlation/Measurements/TelescopeReflections_20200924/';
 filename1 = 'tx_new.txt';
 
-filename2 = [filepath, 'noTel.txt'];
-filename3 = [filepath, 'noTel_noRet.txt'];
+filename2 = [filepath, 'ar_Tel_Nocat.txt'];
+filename3 = [filepath, 'ar_Tel_cat.txt'];
 
 % % Use this and only this for stretegy 2.1 (comment lines above)
 % filepath = 'CorrelatorFiles&Measurements/EDFA/';
@@ -42,44 +42,42 @@ filename3 = [filepath, 'noTel_noRet.txt'];
 % rx = dir([filepath, '*cm.txt']);
 
 
-%% Strategy 1
-% The signal sent is already the signal, so it is necessary to modify the
-% function xcorr as explained below
-
-% rxCat = textToSignal(filename2, pulse, m, fFPGA, fReal);
-% rxNoCat = textToSignal(filename3, pulse, m, fFPGA, fReal);
-% 
-% idealRx = rxCat-rxNoCat;
-% 
-% % plot(idealRx);
-% figure;
-
-%IMPORTANT%
-% It is necessary to change correlate Fourier: comment line 'signal2 =
-% textToSignal(filename2, pulse, m, fFPGA, fReal);' and uncomment 'signal2
-% = filename2;'
-% Calculate distance of the reflection
-% [~, ~, disNoCat, ~, ~, ~, ~] = correlateFourier(filename1, rxNoCat, pulse, m, fFPGA, fReal, n, c, 0);
-% [xaxis, cor, dis, ~, ~, ~, ~] = correlateFourier(filename1, idealRx, pulse, m, fFPGA, fReal, n, c, 0);
-% plot(xaxis, cor);
-% dis
-% (dis - disNoCat) / 2
 
 %% Strategy 2
 % Substract correlations. The function xcorr must not be modified (if it
 % has been done strategy 1, the function must be set to its original
 % configuration).
-[~, corNoCat, ~, disNoCat, ~, ~, ~] = correlateFourier(filename1, filename3, pulse, m, fFPGA, fReal, n, c, 0);
-[xaxis, cor, ~, dis, ~, ~, ~] = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c, 0);
+[~, corNoCat, ~, disNoCat, ~, ~, ~] = correlateFourier(filename1, filename2, pulse, m, fFPGA, fReal, n, c, 0);
+[xaxis, cor, ~, dis, ~, ~, ~] = correlateFourier(filename1, filename3, pulse, m, fFPGA, fReal, n, c, 0);
 
-plotCorrDisShift(xaxis, cor);
-% plotCorrDisShift(xaxis, corNoCat);
-% 
-plotCorrDisShift(xaxis, cor-corNoCat);
+figure('Color',[1 1 1]);
+
+subplot(3, 1, 1);
+plot(xaxis, corNoCat, 'k');
+xlabel('Distance (m)');
+xlim([2000 xaxis(end)]);
+ylabel('rxy[m]');
+title('Correlation without target');
+
+subplot(3, 1, 2);
+plot(xaxis, cor, 'k');
+xlabel('Distance (m)');
+xlim([2000 xaxis(end)]);
+ylabel('rxy[m]');
+title('Correlation with target');
+
+subplot(3, 1, 3);
+plot(xaxis, cor-corNoCat, 'k');
+xlim([2000 xaxis(end)]);
+xlabel('Distance (m)');
+ylabel('Correlation subtraction');
+title('Correlation subtraction (with target - withouot target)');
 
 (dis - disNoCat) / 2
+    
+% plotCorrDisShift(xaxis, cor);
 
-% %% Strategy 2.1
+%% Strategy 2.1
 % % Same as before but all the files at the same time. Comment code in
 % % 'Importing and conforming signals in time domain'
 % 
@@ -198,7 +196,31 @@ for ii = 1:length(files)
     hold on;
 end
 
-filesPow
+%% Reflection comparison
+% Comparing reflection with different fiber ends
 
+tx = 'C:/Users/nacho/Documents/MATLAB/Correlation/Measurements/TelescopeReflections_20200924/';
 
+tx = 'tx_new.txt'
 
+fcpc = 'nocat_5.txt';
+fcapc = [filepath, 'APC_Tel_Nocat.txt'];
+ar = [filepath, 'ar_Tel_Nocat.txt'];
+
+[xaxis, corFcpc] = correlateFourierReduced(tx, fcpc, pulse, m, fFPGA, fReal, n, c, 0);
+[~, corFcapc] = correlateFourierReduced(tx, fcapc, pulse, m, fFPGA, fReal, n, c, 0);
+[~, corAr] = correlateFourierReduced(tx, ar, pulse, m, fFPGA, fReal, n, c, 0);
+
+figure('Color',[1 1 1]);
+
+plot(xaxis, corFcpc);
+hold on
+plot(xaxis, corFcapc);
+hold on
+plot(xaxis, corAr);
+hold off
+
+xlabel('Distance (m)')
+xlim([xaxis(1) xaxis(end)])
+ylabel('r_x_y[m]')
+ylim([-0.5 14])
