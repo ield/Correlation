@@ -26,17 +26,18 @@ isAir = 0;
 
 filepath = 'C:/Users/nacho/Documents/MATLAB/Correlation/Measurements/MeasuringDistances_20201001/';
 
-tx = [filepath, 'tx_new.txt'];          % Tx file: used for correlation
-nocat = [filepath, 'ar_Tel_Nocat.txt'];    
+tx = [filepath, 'tx.txt'];          % Tx file: used for correlation
+nocat = [filepath, 'noCat.txt'];    
 % The name of the plots must be:
 %   Distance xcm_1 - xcm_5
 
 % The distances are determined by an initial value and a step between
 %   measures (all in cm)
 
-ini = 10;
+ini = 15;
 step = 10;
-last = 200;
+last = 105;
+offset = 2;         % Offset in the measurements (in cm)
 
 % All received files are grouped into a matrix. Normally, the result would
 %   be a vector, but they are transposed so that they are an array. When
@@ -62,7 +63,7 @@ for ii = 1:length(rx(:, 1)) %For each row
     for jj = 1:length(rx(1, :)) %For each column of that row: each measure
         rxMeasure = [filepath, rx(ii, jj).name];
         [~, ~, dis] = correlateFourierReduced(tx, rxMeasure, pulse, m, fFPGA, fReal, n, c, isAir);        
-        maxima(ii, jj) = (dis-disTel)/2; % Now it is necesary to subtract the distance measured to the ones of the telescope
+        maxima(ii, jj) = (dis-disTel)/2*100; % Now it is necesary to subtract the distance measured to the ones of the telescope
     end
 end
 "All correlations done"
@@ -72,9 +73,16 @@ end
 figure('Color',[1 1 1]);
 for ii = 1:length(maxima(:, 1)) %For each row
     for jj = 1:length(maxima(1, :)) %For each column of that row: each measure
-        plot(positions(ii), maxima(ii, jj), '+k');
+        plot(positions(ii)+offset, maxima(ii, jj), '+k');
         hold on;
     end
 end
 
+% Calculating the error as the distance between the results expected and 
+%   the results obtained
+errorVector = (abs(mean(maxima')) - positions)./positions;
+error = mean(errorVector)
 
+plot(positions+offset, positions+offset);
+xlabel('Separation collimator - retroreflector (cm)');
+ylabel('Distance measured (cm)');
