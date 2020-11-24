@@ -26,7 +26,7 @@ Fs = 2e9;           % Sampling rate of the oscilloscope
 isAir = 0;
 
 %%
-filepath = 'CorrelatorFiles&Measurements/Atenuador/';
+filepath = '../Measurements/Atenuador/';
 
 rx_av = dir([filepath, '*_av.txt']);
 rx_noav = dir([filepath, '*_noav.txt']);
